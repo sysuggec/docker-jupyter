@@ -15,10 +15,17 @@ mkdir -p notebook
 docker run --rm   -v  `pwd`:/root  $image   jupyter notebook --generate-config
 
 echo "set notebook"
-sed  -i "s/# c.NotebookApp.notebook_dir = ''/c.NotebookApp.notebook_dir = '\/home\/notebook'/g" .jupyter/jupyter_notebook_config.py
-sed  -i "s/# c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/g" .jupyter/jupyter_notebook_config.py
-sed  -i "s/# c.NotebookApp.port = 8888/c.NotebookApp.port = 8888/g" .jupyter/jupyter_notebook_config.py
-sed  -i "# c.NotebookApp.open_browser = True/c.NotebookApp.open_browser = False/g" .jupyter/jupyter_notebook_config.py
+if [ "$(uname)" == "Darwin" ];then #ios/mac
+	sed  -i ""  "s/# c.NotebookApp.notebook_dir = ''/c.NotebookApp.notebook_dir = '\/home\/notebook'/g" .jupyter/jupyter_notebook_config.py
+	sed  -i "" "s/# c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/g" .jupyter/jupyter_notebook_config.py
+	sed  -i "" "s/# c.NotebookApp.port = 8888/c.NotebookApp.port = 8888/g" .jupyter/jupyter_notebook_config.py
+	sed  -i "" "# c.NotebookApp.open_browser = True/c.NotebookApp.open_browser = False/g" .jupyter/jupyter_notebook_config.py
+else
+	sed  -i "s/# c.NotebookApp.notebook_dir = ''/c.NotebookApp.notebook_dir = '\/home\/notebook'/g" .jupyter/jupyter_notebook_config.py
+	sed  -i "s/# c.NotebookApp.ip = 'localhost'/c.NotebookApp.ip = '*'/g" .jupyter/jupyter_notebook_config.py
+	sed  -i "s/# c.NotebookApp.port = 8888/c.NotebookApp.port = 8888/g" .jupyter/jupyter_notebook_config.py
+	sed  -i "# c.NotebookApp.open_browser = True/c.NotebookApp.open_browser = False/g" .jupyter/jupyter_notebook_config.py
+fi
 
 
 #set password
